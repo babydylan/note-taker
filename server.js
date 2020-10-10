@@ -35,7 +35,10 @@ function getData(req, res, next) {
     });
 }
 
-
+function deleteData(req, res, next) {
+    req.noteData = req.noteData.filter((note) => note.id !== req.params.id)
+    next()
+}
 
 app.listen(PORT, () =>
   console.log(`Server listening at http://localhost:${PORT}`)
