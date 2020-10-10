@@ -16,15 +16,24 @@ app.use(
 
 //routes
 function writeDataToDB(req, res, next) {
-    req.body.id = genID()
-    let newDataArray = [...req.noteData, req.body]
-    fs.writeFile("./db/db.json", JSON.stringify(newDataArray), (err, data) => {
+    req.body.id = genID();
+    let newData = [...req.noteData, req.body];
+    fs.writeFile("./db/db.json", JSON.stringify(newData), (err, data) => {
       if (!err) {
-        next()
-      } else console.log(err)
-    })
+        next();
+      } else console.log(err);
+    });
 }
 
+function getData(req, res, next) {
+    fs.readFile("./db/db.json", (err, data) => {
+      req.noteData = JSON.parse(data);
+      next();
+      if (err) {
+        res.sendStatus(500);
+      }
+    });
+}
 
 
 
